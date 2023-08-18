@@ -2,14 +2,15 @@
 
 from flask import Flask,abort,render_template,request
 from markupsafe import escape
-from mlmodel.newmodel import linreg, selecttable
+from mlmodel.model import linreg
+from mlmodel.util import selecttable
 import numpy as np
 import pandas as pd
 
 app = Flask(__name__, template_folder='templates')
 
-
 @app.route('/',methods=["GET","POST"])
+@app.route('/seaborndatasets',methods=["GET","POST"])
 def hello():
     data = 0
     if request.method == "POST":

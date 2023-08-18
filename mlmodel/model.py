@@ -19,8 +19,6 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 # Input data files are available in the read-only "../input/" directory
 # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
 
-FILE_PATH = "/media/amogh193/Data/PythonFiles/assignment/fullstackapp/seaborn-data-master/dataset_names.txt"
-SEABORN_FILE_PATH = "/media/amogh193/Data/PythonFiles/assignment/fullstackapp/seaborn-data-master"
 import os
 for dirname, _, filenames in os.walk('/kaggle/input'):
     for filename in filenames:
@@ -91,13 +89,4 @@ def linreg(x):
     print(result[0])
     return result
 
-def selecttable(selected):
-    seldata = 0 # index of selected data in dataset table
-    f = open(FILE_PATH,'r')
-    datasetnames = f.read().split()
-    tableheading = datasetnames[selected]
-    f.close()
-    df = pd.read_csv(f"{SEABORN_FILE_PATH}/csv/{datasetnames[selected]}.csv")
-    table = df.to_html()
-    return table,tableheading,datasetnames
-    
+  
