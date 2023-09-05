@@ -78,7 +78,7 @@ finaltheta = grad_descent(theta,X,Y,1000,1e-1)
 # plt.show()
 
 
-def linreg(x):
+def linregmultiplevariables(x):
     x = np.array(x)
     count = 0
     for i,j in zip([1.,]+(list(colmeans.values())),[0.]+(list(colstds.values()))):

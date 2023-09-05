@@ -2,7 +2,7 @@
 
 from flask import Flask,abort,render_template,request
 from markupsafe import escape
-from mlmodel.model import linreg
+from mlmodel.models import linregmultiplevariables
 from mlmodel.util import selecttable
 import numpy as np
 import pandas as pd
@@ -16,9 +16,10 @@ def hello():
     if request.method == "POST":
         data = request.form["data1"]
     table  = selecttable(int(data))
-    output = {"table":table[0],
-              "tableheading":table[1], 
-              "data1":data,
-              "datasetlist": table[2]
-            }
+    output = {
+                "table":table[0],
+                "tableheading":table[1], 
+                "data1":data,
+                "datasetlist": table[2]
+             }
     return render_template("home.html", output = output)
