@@ -1,0 +1,40 @@
+html{
+    color: blue;
+}
+
+body{
+    color: lightgreen;
+    display: flex;
+    align-items: center;
+    height:95vh;
+    width:95vw;
+    justify-content: center;
+    background-color: black;
+}
+
+#box1{
+    position:absolute;
+    background-color:darkblue ;
+    top: 0vh;
+    left: 0vw;
+    height: 20vh;/*make this height variable for compatibility with different window sizes*/
+    width: 5vh;
+}
+
+#box2{
+    position:absolute;
+    background-color: orange;
+    top: 0vh;
+    left: 95vw;
+    height: 20vh;/*make this height variable for compatibility with different window sizes*/
+    width: 5vh;
+}
+
+#ball{
+    position: absolute;
+    background-color: white;
+    top: 50vh;
+    left: 50vh;
+    height: 2vh;
+    width: 2vh;
+}

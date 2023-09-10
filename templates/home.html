@@ -13,7 +13,7 @@
     <p>
     <form action="/" method = "POST">
         <br> Enter table number: <input type = 'text' name="data1"><br>
-        <ul>
+        <ul class="hehe">
             {% for item in output.datasetlist %}
                 <li>{{ loop.index - 1 }}: {{ item }}</li>
             {% endfor %}

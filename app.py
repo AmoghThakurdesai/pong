@@ -23,3 +23,7 @@ def hello():
                 "datasetlist": table[2]
              }
     return render_template("home.html", output = output)
+
+@app.route('/pong/',methods=['GET','POST'])
+def pong():
+    return render_template("pong.html")
