@@ -1,13 +1,9 @@
-html{
-    color: blue;
-}
-
-body{
+#ponggame{
     color: lightgreen;
-    display: flex;
+    position: relative;
     align-items: center;
-    height:95vh;
-    width:95vw;
+    width: 600px;
+    height: 600px;
     justify-content: center;
     background-color: black;
 }
@@ -15,26 +11,26 @@ body{
 #box1{
     position:absolute;
     background-color:darkblue ;
-    top: 0vh;
-    left: 0vw;
-    height: 20vh;/*make this height variable for compatibility with different window sizes*/
-    width: 5vh;
+    top: 0px;
+    left: 0px;
+    height: 100px;/*make this height variable for compatibility with different window sizes*/
+    width: 10px;
 }
 
 #box2{
     position:absolute;
     background-color: orange;
-    top: 0vh;
-    left: 95vw;
-    height: 20vh;/*make this height variable for compatibility with different window sizes*/
-    width: 5vh;
+    top: 500px;
+    left: 590px;
+    height: 100px;/*make this height variable for compatibility with different window sizes*/
+    width: 10px;
 }
 
 #ball{
     position: absolute;
     background-color: white;
-    top: 50vh;
-    left: 50vh;
-    height: 2vh;
-    width: 2vh;
+    top: 285px;
+    left: 285px;
+    height: 30px;
+    width: 30px;
 }
