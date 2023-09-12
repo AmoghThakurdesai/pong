@@ -3,7 +3,7 @@ const player1 = document.getElementById('box1');
 const player2 = document.getElementById('box2');
 const container = document.getElementById('ponggame');
 const gameover = document.getElementById('gameoverdiv');
-
+const containerRect = container.getBoundingClientRect()
 function checkCollision(div1, div2) {
     var rect1 = div1.getBoundingClientRect();
     var rect2 = div2.getBoundingClientRect();
@@ -46,12 +46,15 @@ setInterval(
         } else if (posBallX > maxX && checkCollision(ball,player2)) {
             posBallX = maxX;
             speedX *= -1; // Change direction
-        } 
-        // else {
-        //     var parentDiv = container.parentNode;
-        //     console.log({"parentDiv":parentDiv})
-        //     parentDiv.replaceChild(container, gameover)
-        // }
+        } else if (posBallX < container.offsetLeft || posBallX > container.offsetLeft + container.clientWidth){
+            console.log({"parentDiv":(container.offsetTop/2) - (ball.clientHeight/2) + "px"})
+            alert("GAME OVER");
+
+            // TODO: make the ball come to center after gameover alert, atta kahitari bug aahe
+            ball.style.top = (container.clientHeight + ball.clientHeight + container.offsetTop)/2 + "px"
+            ball.style.left = (container.clientWidth + ball.clientWidth + container.offsetLeft)/2 + "px"
+
+        }
     
         if (posBallY < minY) {
             posBallY = minY;
