@@ -1,15 +1,20 @@
 var pongcanvas = document.getElementById("ponggame")
 var ctx = pongcanvas.getContext("2d")
 
-var player1 = {x:0,y:250,width:20,height:100,color:"#FF0000"}
-var player2 = {x:580,y:250,width:20,height:100,color:"#00FF00"}
-var ball = {x:290,y:290,width:20,height:20,color:"#FFFFFF"}
+
+var player1 = {x:10,y:250,width:10,height:30,color:"#FF0000"}
+var player2 = {x:580,y:250,width:10,height:30,color:"#00FF00"}
+var ball = {x:290,y:290,width:8,height:8,color:"#FFFFFF"}
 var speedplayer = 5
 var speedball = 5
 var speedballx = speedball
 var speedbally = speedball
 var start = false
 var ballAngle = getRandomAngle()
+var gameover = false
+var player1score = 0
+var player2score = 0
+const GAMEOVERMSG = "GAME OVER!!"
 
 function getRectBounds(rect){
     return {
@@ -34,17 +39,28 @@ function checkCollision(r1, r2) {
         )
 }
 
-function checkCollisionWall(ball)
+function checkCollisionWallY(ball)
 {
     var ballBounds = getRectBounds(ball)
     return (
         ballBounds.bottom > pongcanvas.height
         || ballBounds.top < 0
-        || ballBounds.left < 0
-        || ballBounds.right > pongcanvas.width
     )
 }
 
+function checkCollisionWallleft(ball){
+    var ballBounds = getRectBounds(ball)
+    return (
+        ballBounds.left < 0
+    )
+}
+
+function checkCollisionWallright(ball){
+    var ballBounds = getRectBounds(ball)
+    return (
+        ballBounds.right > pongcanvas.width
+    )
+} 
 function drawRect(rect){
     ctx.fillStyle = rect.color
     ctx.fillRect(rect.x,rect.y,rect.width,rect.height)
@@ -64,18 +80,31 @@ function getRandomAngle(){
 
 
 function moveBall(ball){
-    
-    ball.x += Math.cos(ballAngle) * speedballx
-    ball.y -= Math.sin(ballAngle) * speedbally
-
     if(checkCollision(ball,player1) || checkCollision(player2,ball)){
         speedballx*=(-1)
     }
-    else if(checkCollisionWall(ball))
-    {
+    else if(checkCollisionWallY(ball)){
         speedbally*=(-1)
     }
+    else if(checkCollisionWallleft(ball)){
+        gameover=true
+        player2score+=1;
+        console.log({"p2scorechange":player2score})
+    }
+    else if(checkCollisionWallright(ball)){
+        gameover=true
+        player1score+=1;
+        console.log({"p1scorechange":player1score})
+    }
+
+    if(!gameover)
+    {
+        ball.x += Math.cos(ballAngle) * speedballx
+        ball.y -= Math.sin(ballAngle) * speedbally
+    }
 }
+
+
 
 function moveplayer(player1,player2){
     if(keys['w'] && player1.y > 0){
@@ -111,10 +140,17 @@ function draw(){
     moveplayer(player1,player2)
     moveBall(ball)
     drawRect(ball)
+    if(gameover){
+        clearInterval(gameloop)
+        clearCanvas()
+        ctx.font = "30px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(`${GAMEOVERMSG} Score: ${player1score} - ${player2score}`, pongcanvas.width/2, pongcanvas.height/2);
+    }
 }
 
 let keys = {};
-setInterval(draw,20)
+let gameloop = setInterval(draw,20)
 
 
 window.addEventListener("keydown", function(e) {
