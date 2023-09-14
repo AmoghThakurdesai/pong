@@ -1,12 +1,15 @@
 var pongcanvas = document.getElementById("ponggame")
 var ctx = pongcanvas.getContext("2d")
 
-var player1 = {x:0,y:0,width:20,height:100,color:"#FF0000"}
-var player2 = {x:580,y:0,width:20,height:100,color:"#00FF00"}
+var player1 = {x:0,y:250,width:20,height:100,color:"#FF0000"}
+var player2 = {x:580,y:250,width:20,height:100,color:"#00FF00"}
 var ball = {x:290,y:290,width:20,height:20,color:"#FFFFFF"}
 var speedplayer = 5
 var speedball = 5
+var speedballx = speedball
+var speedbally = speedball
 var start = false
+var ballAngle = getRandomAngle()
 
 function getRectBounds(rect){
     return {
@@ -17,6 +20,8 @@ function getRectBounds(rect){
     }
 }
 
+
+
 function checkCollision(r1, r2) {
     var rect1 = getRectBounds(r1)
     var rect2 = getRectBounds(r2)
@@ -24,7 +29,7 @@ function checkCollision(r1, r2) {
     return !(
         rect1.bottom < rect2.top 
         || rect1.top > rect2.bottom
-        || rect1.right < rect2.right
+        || rect1.right < rect2.left
         || rect1.left > rect2.right
         )
 }
@@ -57,13 +62,18 @@ function getRandomAngle(){
     return randomangle
 }
 
-function moveBall(ball,angle){
 
-    ball.x += Math.cos(angle) * speedball
-    ball.y -= Math.sin(angle) * speedball
+function moveBall(ball){
+    
+    ball.x += Math.cos(ballAngle) * speedballx
+    ball.y -= Math.sin(ballAngle) * speedbally
 
-    if(checkCollision(ball,player1) || checkCollision(ball,player2w) || checkCollisionWall(ball)){
-        speedball*=(-1)
+    if(checkCollision(ball,player1) || checkCollision(player2,ball)){
+        speedballx*=(-1)
+    }
+    else if(checkCollisionWall(ball))
+    {
+        speedbally*=(-1)
     }
 }
 
@@ -80,6 +90,18 @@ function moveplayer(player1,player2){
     if(keys['ArrowDown'] && player2.y < (pongcanvas.height - player2.height)){
         player2.y += speedplayer;
     }
+    // if(keys['w'] && checkCollisionWall(player1)){
+    //     player1.y -= speedplayer;
+    // }
+    // if(keys['s'] && checkCollisionWall(player1)){
+    //     player1.y += speedplayer;
+    // }
+    // if(keys['ArrowUp'] && checkCollisionWall(player2)){
+    //     player2.y -= speedplayer;
+    // }
+    // if(keys['ArrowDown'] && checkCollisionWall(player2)){
+    //     player2.y += speedplayer;
+    // }
     drawRect(player1)
     drawRect(player2)    
 }
@@ -87,7 +109,7 @@ function moveplayer(player1,player2){
 function draw(){
     clearCanvas()
     moveplayer(player1,player2)
-    moveBall(ball,Math.PI/4)
+    moveBall(ball)
     drawRect(ball)
 }
 
