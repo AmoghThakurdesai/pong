@@ -7,30 +7,3 @@
     justify-content: center;
     background-color: black;
 }
-
-#box1{
-    position:absolute;
-    background-color:darkblue ;
-    top: 0px;
-    left: 0px;
-    height: 100px;/*make this height variable for compatibility with different window sizes*/
-    width: 10px;
-}
-
-#box2{
-    position:absolute;
-    background-color: orange;
-    top: 500px;
-    left: 590px;
-    height: 100px;/*make this height variable for compatibility with different window sizes*/
-    width: 10px;
-}
-
-#ball{
-    position: absolute;
-    background-color: white;
-    top: 285px;
-    left: 285px;
-    height: 30px;
-    width: 30px;
-}

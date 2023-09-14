@@ -1,124 +1,105 @@
-const ball = document.getElementById('ball');
-const player1 = document.getElementById('box1');
-const player2 = document.getElementById('box2');
-const container = document.getElementById('ponggame');
-const gameover = document.getElementById('gameoverdiv');
-const containerRect = container.getBoundingClientRect()
-function checkCollision(div1, div2) {
-    var rect1 = div1.getBoundingClientRect();
-    var rect2 = div2.getBoundingClientRect();
+var pongcanvas = document.getElementById("ponggame")
+var ctx = pongcanvas.getContext("2d")
 
-    return !(rect1.bottom < rect2.top 
-            || rect1.top > rect2.bottom
-            || rect1.right < rect2.right
-            || rect1.left > rect2.right)
+var player1 = {x:0,y:0,width:20,height:100,color:"#FF0000"}
+var player2 = {x:580,y:0,width:20,height:100,color:"#00FF00"}
+var ball = {x:290,y:290,width:20,height:20,color:"#FFFFFF"}
+var speedplayer = 5
+var speedball = 5
+var start = false
+
+function getRectBounds(rect){
+    return {
+        top: rect.y,
+        left: rect.x,
+        bottom: rect.y + rect.height,
+        right: rect.x + rect.width
+    }
 }
 
-// Set initial position
-var posBallX = ball.offsetLeft;
-var posBallY = ball.offsetTop;
+function checkCollision(r1, r2) {
+    var rect1 = getRectBounds(r1)
+    var rect2 = getRectBounds(r2)
 
-const minX = player1.clientWidth
-const minY = 0;
-const maxX = container.clientWidth - player2.clientWidth - ball.clientWidth;
-const maxY = container.clientHeight - ball.clientHeight;
-const maxYplayer = container.clientHeight - player2.clientHeight; 
-console.log({"maxYplayer":maxYplayer,"maxY":maxY,"maxX":maxX,"minX":minX,"minY":minY })
-// Set the speed of movement
-var speedX = 5;
-var speedY = 5;
+    return !(
+        rect1.bottom < rect2.top 
+        || rect1.top > rect2.bottom
+        || rect1.right < rect2.right
+        || rect1.left > rect2.right
+        )
+}
 
-document.body.style.overflow = 'hidden';
+function checkCollisionWall(ball)
+{
+    var ballBounds = getRectBounds(ball)
+    return (
+        ballBounds.bottom > pongcanvas.height
+        || ballBounds.top < 0
+        || ballBounds.left < 0
+        || ballBounds.right > pongcanvas.width
+    )
+}
 
-setInterval(
-    function(){
-        // bug: Javascript takes posBallX/Y as string
+function drawRect(rect){
+    ctx.fillStyle = rect.color
+    ctx.fillRect(rect.x,rect.y,rect.width,rect.height)
+}
 
-        posBallX = posBallX + speedX;
-        posBallY = posBallY + speedY;
-        console.log({"posBallX":posBallX,"posBallY":posBallY})
-        console.log({"maxYplayer":maxYplayer,"maxY":maxY,"maxX":maxX,"minX":minX,"minY":minY })
-        console.log({"containerwidth":container.clientWidth,"containerheight":container.clientHeight})
+function clearCanvas(){
+    ctx.clearRect(0,0,pongcanvas.width,pongcanvas.height)
+}
 
-        if (posBallX < minX && checkCollision(ball,player1)) {
-            posBallX = minX;
-            speedX *= -1; // Change direction
-        } else if (posBallX > maxX && checkCollision(ball,player2)) {
-            posBallX = maxX;
-            speedX *= -1; // Change direction
-        } else if (posBallX < container.offsetLeft || posBallX > container.offsetLeft + container.clientWidth){
-            console.log({"parentDiv":(container.offsetTop/2) - (ball.clientHeight/2) + "px"})
-            alert("GAME OVER");
-
-            // TODO: make the ball come to center after gameover alert, atta kahitari bug aahe
-            ball.style.top = (container.clientHeight + ball.clientHeight + container.offsetTop)/2 + "px"
-            ball.style.left = (container.clientWidth + ball.clientWidth + container.offsetLeft)/2 + "px"
-
-        }
-    
-        if (posBallY < minY) {
-            posBallY = minY;
-            speedY *= -1; // Change direction
-        } else if (posBallY > maxY) {
-            posBallY = maxY;
-            speedY *= -1; // Change direction
-        }
-        
-        ball.style.top = posBallY + 'px';
-        ball.style.left = posBallX + 'px';
-    },
-    20
-) // update pos every 20ms
-
-// Listen for keydown event
-window.addEventListener('keydown', function(e) {
-    var p1top = player1.offsetTop
-    var p2top = player2.offsetTop
-
-    switch (e.key) {     
-        case "w":
-            {
-                p1top = (p1top - 15);
-            }
-            break;
-        case "s":
-            {
-                p1top = p1top + 15;
-            }
-            break;    
-        case "ArrowUp":
-            {    
-                p2top = p2top - 15;
-            }
-            break;
-        case "ArrowDown":
-            {
-                p2top = (p2top + 15);
-            }
-            break;
+function getRandomAngle(){
+    var randomangle = (-Math.PI + Math.random() * (2*Math.PI))
+    if(randomangle==(Math.PI / 2) || randomangle==(-Math.PI / 2)){
+        randomangle = (-Math.PI + Math.random() * (2*Math.PI))
     }
+    return randomangle
+}
 
-    if (p1top < minY) {
-        p1top = minY;
-    } else if (p1top > maxYplayer) {
-        p1top = maxYplayer;
+function moveBall(ball,angle){
+
+    ball.x += Math.cos(angle) * speedball
+    ball.y -= Math.sin(angle) * speedball
+
+    if(checkCollision(ball,player1) || checkCollision(ball,player2w) || checkCollisionWall(ball)){
+        speedball*=(-1)
     }
+}
 
-    if (p2top < minY) {
-        p2top = minY;
-    } else if (p2top > maxYplayer) {
-        p2top = maxYplayer;
+function moveplayer(player1,player2){
+    if(keys['w'] && player1.y > 0){
+        player1.y -= speedplayer;
     }
+    if(keys['s'] && player1.y < (pongcanvas.height - player1.height)){
+        player1.y += speedplayer;
+    }
+    if(keys['ArrowUp'] && player2.y > 0){
+        player2.y -= speedplayer;
+    }
+    if(keys['ArrowDown'] && player2.y < (pongcanvas.height - player2.height)){
+        player2.y += speedplayer;
+    }
+    drawRect(player1)
+    drawRect(player2)    
+}
 
-    player1.style.top = p1top + "px";
-    player2.style.top = p2top + "px";
+function draw(){
+    clearCanvas()
+    moveplayer(player1,player2)
+    moveBall(ball,Math.PI/4)
+    drawRect(ball)
+}
+
+let keys = {};
+setInterval(draw,20)
+
+
+window.addEventListener("keydown", function(e) {
+    keys[e.key] = true;
 });
-  
 
-// In this code, we’re listening for the keydown event on the window object. When a key is pressed, we check if it’s one of the arrow keys and adjust our posX and posY variables accordingly. We then update the top and left CSS properties of our div to move it.
+window.addEventListener("keyup", function(e) {
+    keys[e.key] = false;
+});
 
-// Please replace 'yourDivId' with the actual id of your HTML element. Also, ensure that this script is either placed at the end of your HTML body or is run after the DOM has fully loaded, to make sure that the element can be correctly selected with document.getElementById.
-
-// Also, make sure your div has a CSS position value of absolute, relative, or fixed, otherwise the top and left properties will have no effect.
-
-// Remember to add boundary checks if you don’t want your div to be able to move outside of the viewport or another container.
