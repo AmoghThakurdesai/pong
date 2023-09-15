@@ -12,9 +12,31 @@ var speedbally = speedball
 var start = false
 var ballAngle = getRandomAngle()
 var gameover = false
-var player1score = 0
-var player2score = 0
+var player1win = 0
 const GAMEOVERMSG = "GAME OVER!!"
+
+function drawGameOverScreen(scoredict)
+{
+    clearCanvas()
+    fetch('/process', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({player1win:player1win})
+    })
+    .then(response => response.json())
+    .then(scoredict => {
+        console.log(scoredict)
+        ctx.font = "30px Arial";
+        ctx.textAlign = "center"
+        ctx.fillText(`${GAMEOVERMSG} Score: ${scoredict.p1score} - ${scoredict.p2score}`, pongcanvas.width/2, pongcanvas.height/2);
+        // we get scores here
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    }
 
 function getRectBounds(rect){
     return {
@@ -78,7 +100,6 @@ function getRandomAngle(){
     return randomangle
 }
 
-
 function moveBall(ball){
     if(checkCollision(ball,player1) || checkCollision(player2,ball)){
         speedballx*=(-1)
@@ -88,13 +109,13 @@ function moveBall(ball){
     }
     else if(checkCollisionWallleft(ball)){
         gameover=true
-        player2score+=1;
-        console.log({"p2scorechange":player2score})
+        player1win=0
+        
     }
     else if(checkCollisionWallright(ball)){
         gameover=true
-        player1score+=1;
-        console.log({"p1scorechange":player1score})
+        player1win=1
+         
     }
 
     if(!gameover)
@@ -142,14 +163,15 @@ function draw(){
     drawRect(ball)
     if(gameover){
         clearInterval(gameloop)
-        clearCanvas()
-        ctx.font = "30px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(`${GAMEOVERMSG} Score: ${player1score} - ${player2score}`, pongcanvas.width/2, pongcanvas.height/2);
+        drawGameOverScreen()
     }
 }
 
 let keys = {};
+
+sessionStorage.setItem('player1score',"hehe")
+sessionStorage.setItem('player2score',"")
+
 let gameloop = setInterval(draw,20)
 
 
@@ -160,4 +182,3 @@ window.addEventListener("keydown", function(e) {
 window.addEventListener("keyup", function(e) {
     keys[e.key] = false;
 });
-
