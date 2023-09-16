@@ -7,3 +7,8 @@
     justify-content: center;
     background-color: black;
 }
+
+#NewGameButton{
+    background-color: #eded13; 
+    color: #fff;
+}

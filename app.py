@@ -1,11 +1,13 @@
 # #!/usr/bin/env python3
 import os
-from flask import Flask,abort,render_template,request,jsonify
+import click
+from flask import Flask,render_template,request,jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
+from models import Game,Player,GameHistory
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 score = {"p1score":0,"p2score":0}
+gamenum=0
 
 app = Flask(__name__,template_folder='templates')
 app.debug=True
@@ -16,9 +18,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
+
+
 @app.route('/',methods=["GET","POST"])
 def pong():
-    print("pong runs")
+    game1 = Game(gameid = gamenum,);
     return render_template("pong.html")
 
 @app.route('/process',methods=['POST'])
@@ -28,16 +32,10 @@ def scoreboard():
         score["p1score"]+=1
     else:
         score["p2score"]+=1
+    gamenum+=1
     return jsonify(score)
 
 
-
-class Game(db.Model):
-    p1score = db.Column(db.Integer,unique=False, nullable=False, primary_key=True)
-    p2score = db.Column(db.Integer,unique=False, nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True),server_default=func.now())
-    def __repr__(self):
-        return f"Game {self.gameid}"
 
 
 ### the below code is problematic because we cant import mlmodels package here 
@@ -62,4 +60,5 @@ class Game(db.Model):
 #                 "datasetlist": table[2]
 #              }
 #     return render_template("home.html", output = output)
+
 

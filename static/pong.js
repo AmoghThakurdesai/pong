@@ -100,6 +100,8 @@ function getRandomAngle(){
     return randomangle
 }
 
+
+
 function moveBall(ball){
     if(checkCollision(ball,player1) || checkCollision(player2,ball)){
         speedballx*=(-1)
