@@ -10,15 +10,16 @@ def hash_password(password):
     # Generate a salted hash of the password
     return bcrypt_sha256.hash(password)
 
-class Game(Base):
-    __tablename__ = 'game'
+class GameRecord(Base):
+    __tablename__ = 'gamerecord'
     gameid = Column(
         Integer,
         unique=True,
         autoincrement=True,
         )
     p1score = Column(
-        Integer,unique=False, 
+        Integer,
+        unique=False, 
         nullable=False, 
         primary_key=True,
         )
@@ -58,7 +59,7 @@ class Player(Base):
         primary_key=True,
     )
     username = Column(
-        Integer,
+        String,
         unique=False, 
         nullable = False
     )
@@ -76,19 +77,20 @@ class Player(Base):
     def set_password(self,password):
         self.password = hash_password(password)
     
-class GameHistory(Base):
+class Game(Base):
     """
     returns history of scores for a particular game
     """
-    __tablename__ = 'gamehistory'
+    __tablename__ = 'game'
     recordid = Column(
         Integer,
         unique=True,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True
     )
     gameid = Column(
         Integer,
-        ForeignKey("game.gameid")
+        ForeignKey("gamerecord.gameid")
     )
     p1score = Column(
         Integer,

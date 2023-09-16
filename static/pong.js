@@ -1,4 +1,5 @@
 var pongcanvas = document.getElementById("ponggame")
+let newgamebutton = document.getElementById("NewGameButton")
 var ctx = pongcanvas.getContext("2d")
 
 
@@ -14,6 +15,19 @@ var ballAngle = getRandomAngle()
 var gameover = false
 var player1win = 0
 const GAMEOVERMSG = "GAME OVER!!"
+
+newgamebutton.addEventListener(
+    "click",
+    () => {
+        fetch('/newgame', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .catch((error) => console.error('Error:', error));
+    }
+)
 
 function drawGameOverScreen(scoredict)
 {
@@ -100,8 +114,6 @@ function getRandomAngle(){
     return randomangle
 }
 
-
-
 function moveBall(ball){
     if(checkCollision(ball,player1) || checkCollision(player2,ball)){
         speedballx*=(-1)
@@ -126,8 +138,6 @@ function moveBall(ball){
         ball.y -= Math.sin(ballAngle) * speedbally
     }
 }
-
-
 
 function moveplayer(player1,player2){
     if(keys['w'] && player1.y > 0){
