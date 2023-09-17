@@ -19,17 +19,21 @@ const GAMEOVERMSG = "GAME OVER!!"
 newgamebutton.addEventListener(
     "click",
     () => {
-        fetch('/newgame', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .catch((error) => console.error('Error:', error));
+        fetch('/newgame')
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+
+        clearCanvas()
+        ctx.font = "30px Arial";
+        ctx.textAlign = "center"
+        ctx.fillText("Refresh to start new game",(pongcanvas.width+pongcanvas.offsetLeft)/2,(pongcanvas.height+pongcanvas.offsetTop)/2);
+        
+
     }
 )
 
-function drawGameOverScreen(scoredict)
+function drawGameOverScreen()
 {
     clearCanvas()
     fetch('/process', {

@@ -14,6 +14,36 @@
     <button id="NewGameButton">
        New Game 
     </button>
+
+    <table>
+        <tr>
+          {% for header in headers %}
+            <th>{{ header }}</th>
+          {% endfor %}
+        </tr>
+        {% for row in rows %}
+          <tr>
+            {% for cell in row %}
+              <td>{{ cell }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+
+      <table>
+        <tr>
+          {% for header in headergamerecord %}
+            <th>{{ header }}</th>
+          {% endfor %}
+        </tr>
+        {% for row in rowsgamerecord %}
+          <tr>
+            {% for cell in row %}
+              <td>{{ cell }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
     <!-- <div id="gameoverdiv">
         <strong> GAME OVER HEHEHEHEHE </strong> 
      </div> -->

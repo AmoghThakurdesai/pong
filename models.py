@@ -16,12 +16,12 @@ class GameRecord(Base):
         Integer,
         unique=True,
         autoincrement=True,
+        primary_key=True
         )
     p1score = Column(
         Integer,
         unique=False, 
         nullable=False, 
-        primary_key=True,
         )
     p2score = Column(
         Integer,
