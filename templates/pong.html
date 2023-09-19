@@ -1,52 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel = "stylesheet" href="{{ url_for('static',filename = 'pong.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'pong.css')}}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
 </head>
+
 <body>
-    <canvas id ="ponggame" width="600" height="600"> 
-    </canvas>
+    <div class="container"><button id="NewGameButton" class="btn-dark p-2 m-2">
+            New Game
+        </button>
+    </div>
 
-    <button id="NewGameButton">
-       New Game 
-    </button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="ponggame" width= "600" height="600"></canvas>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered table-striped p-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            {% for header in headers %}
+                            <th>{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                        <tr>
+                            {% for cell in row %}
+                            <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table table-bordered table-striped p-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            {% for header in headergamerecord %}
+                            <th>{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rowsgamerecord %}
+                        <tr>
+                            {% for cell in row %}
+                            <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-    <table>
-        <tr>
-          {% for header in headers %}
-            <th>{{ header }}</th>
-          {% endfor %}
-        </tr>
-        {% for row in rows %}
-          <tr>
-            {% for cell in row %}
-              <td>{{ cell }}</td>
-            {% endfor %}
-          </tr>
-        {% endfor %}
-      </table>
+        </div>
+    </div>
 
-      <table>
-        <tr>
-          {% for header in headergamerecord %}
-            <th>{{ header }}</th>
-          {% endfor %}
-        </tr>
-        {% for row in rowsgamerecord %}
-          <tr>
-            {% for cell in row %}
-              <td>{{ cell }}</td>
-            {% endfor %}
-          </tr>
-        {% endfor %}
-      </table>
+
+
+
+
+
+
+
+
+
     <!-- <div id="gameoverdiv">
         <strong> GAME OVER HEHEHEHEHE </strong> 
      </div> -->
     <script src="{{url_for('static',filename='pong.js')}}"></script>
 </body>
+
 </html>

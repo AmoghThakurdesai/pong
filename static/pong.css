@@ -1,14 +1,16 @@
 #ponggame{
     color: lightgreen;
-    position: relative;
-    align-items: center;
-    width: 600px;
-    height: 600px;
-    justify-content: center;
+    width: 100%;
+    justify-content: left;
+    height: auto;
     background-color: black;
 }
 
-#NewGameButton{
-    background-color: #eded13; 
-    color: #fff;
+.container {
+    width: 100%;
+    overflow: hidden; /* Clear floats */
+}
+
+.table{
+    background-color: rgb(231, 240, 169);
 }
