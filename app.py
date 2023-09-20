@@ -8,10 +8,11 @@ from flask_migrate import Migrate
 from dbinit import engine
 from sqlalchemy import Table
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 score = {"p1score":0,"p2score":0}
 
-
+# TODO: set up flask sqlalchemy secret key in file and import it here 
 app = Flask(__name__,template_folder='templates')
 app.debug=True
 app.config['SQLALCHEMY_DATABASE_URI'] =\
@@ -103,6 +104,22 @@ def newgame():
     return jsonify(score)
 
 
+@app.route("/profile")
+def profile():
+    return "Profile"
+
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/signup")
+def signup():
+    return "Signup"
+
+@app.route("/logout")
+def logout():
+    return "Logout"
 
 ### the below code is problematic because we cant import mlmodels package here 
 ### sort this out later.

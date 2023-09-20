@@ -192,9 +192,11 @@ let gameloop = setInterval(draw,20)
 
 
 window.addEventListener("keydown", function(e) {
+    e.preventDefault();
     keys[e.key] = true;
 });
 
 window.addEventListener("keyup", function(e) {
+    e.preventDefault();
     keys[e.key] = false;
 });
