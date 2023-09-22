@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Login
+Signup
 {% endblock %}
 
 {% block content %}
@@ -13,20 +13,29 @@ Login
                     <h4 class="display-4 text-center">Signup</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="/login">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}. Go to <a href="{{ url_for('login') }}">login page</a>.
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    <form method="POST" action="/signup">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Your Email</label>
-                            <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Your Email" autofocus>
+                            <label for="username" class="form-label">Your Username</label>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username"
+                                placeholder="Your Username" autofocus>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Your Password</label>
-                            <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Your Password">
+                            <input type="password" class="form-control form-control-lg" id="password" name="password"
+                                placeholder="Your Password">
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="remember" name="remember">
                             <label class="form-check-label" for="remember">Remember me</label>
                         </div>
-                        <button type="submit" class="btn btn-info btn-lg btn-block">Login</button>
+                        <button type="submit" class="btn btn-info btn-lg btn-block">Signup</button>
                     </form>
                 </div>
             </div>

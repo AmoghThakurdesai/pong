@@ -1,5 +1,6 @@
 from passlib.hash import bcrypt_sha256
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from sqlalchemy import create_engine,ForeignKey,func
 from sqlalchemy import Column, Integer, String,DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -30,7 +31,7 @@ class GameRecord(Base):
         )
     player1id = Column(
         Integer,
-        ForeignKey("player.playerid"),
+        ForeignKey("player.id"),
         unique=False, 
         nullable = False
         )
@@ -48,10 +49,10 @@ class GameRecord(Base):
     def __repr__(self):
         return f"Game {self.gameid}"
 
-class Player(Base):
+class Player(UserMixin,Base):
 
     __tablename__ = 'player'
-    playerid = Column(
+    id = Column(
         Integer,
         unique=True, 
         nullable = True,
@@ -69,10 +70,9 @@ class Player(Base):
         nullable= False
     )
 
-    def verify_password(self):
+    def verify_password(self,password):
     # Verify the input password against the stored hash
-        input_password = input()
-        return bcrypt_sha256.verify(input_password, self.password)
+        return bcrypt_sha256.verify(password, self.password)
 
     def set_password(self,password):
         self.password = hash_password(password)

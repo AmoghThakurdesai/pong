@@ -13,10 +13,17 @@ Login
                     <h4 class="display-4 text-center">Login</h4>
                 </div>
                 <div class="card-body">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
                     <form method="POST" action="/login">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Your Email</label>
-                            <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Your Email" autofocus>
+                            <label for="username" class="form-label">Your Username</label>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Your Username" autofocus>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Your Password</label>
