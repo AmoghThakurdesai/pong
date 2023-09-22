@@ -6,6 +6,7 @@ The stack currently consists of
 - HTML, CSS and JavaScript for frontend 
 - Flask for the backend with a SQLite3 Database used with Flask-SQLAlchemy ORM.
 
+### TODO List
 - Make the frontend better 
 - Add history menu
 - Add players
