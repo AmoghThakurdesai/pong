@@ -29,8 +29,6 @@ newgamebutton.addEventListener(
         ctx.font = "30px Arial";
         ctx.textAlign = "center"
         ctx.fillText("Refresh to start new game",(pongcanvas.width+pongcanvas.offsetLeft)/2,(pongcanvas.height+pongcanvas.offsetTop)/2);
-        
-
     }
 )
 

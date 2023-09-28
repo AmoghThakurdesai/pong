@@ -138,7 +138,7 @@ def login_process():
     username = request.form.get("username")
     password = request.form.get("password")
     
-    player = db.session.scalars(db.select(Player).filter_by(username = username)).one()
+    player = db.session.execute(db.select(Player).filter_by(username = username)).one()
     print()
     print()
     print()
