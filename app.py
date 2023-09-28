@@ -52,7 +52,7 @@ migrate = Migrate(app,db)
 @app.route('/pong',methods=["GET","POST"])
 def pong():
     headers = Game.__table__.columns.keys()
-    rows = db.session.execute(db.select(Game))
+    rows = db.session.execute(db.select(Game)).scalars()
     if rows:
         rows = [
             [
@@ -65,7 +65,7 @@ def pong():
             ]
         
     headergamerecord = GameRecord.__table__.columns.keys()
-    rowsgamerecord = db.session.query(GameRecord).all()
+    rowsgamerecord = db.session.execute(db.select(GameRecord)).scalars()
     if rowsgamerecord:
         rowsgamerecord = [
             [

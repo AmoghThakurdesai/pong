@@ -11,6 +11,7 @@ def hash_password(password):
     # Generate a salted hash of the password
     return bcrypt_sha256.hash(password)
 
+# should be player1 final score here but cant change this becoz there will be errors in other parts of code that are not in python
 class GameRecord(Base):
     __tablename__ = 'gamerecord'
     gameid = Column(
@@ -37,7 +38,7 @@ class GameRecord(Base):
         )
     player2id = Column(
         Integer,
-        ForeignKey("player.playerid"),
+        ForeignKey("player.id"),
         unique=False, 
         nullable = False
     )
