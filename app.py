@@ -25,7 +25,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = secretkey
 
 
-login_manager = LoginManager()
+login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.init_app(app)
 @login_manager.user_loader
@@ -138,21 +138,21 @@ def login_process():
     username = request.form.get("username")
     password = request.form.get("password")
     
-    player = db.session.execute(db.select(Player).filter_by(username = username)).one()
+    player2 = db.session.execute(db.select(Player).filter_by(username = username)).one()
     print()
     print()
     print()
-    print(player.id,player.password,player.username)
+    print(player2)
     print()
     print()
     print()
     print()
-    if not player:
-        if not player.verify_password(password):
+    if not player2:
+        if not player2.verify_password(password):
             flash("Please check your login details and try again")
             return redirect(url_for("login"))
 
-    login_user(player,remember=True)
+    login_user(player2,remember=True)
     return redirect(url_for("profile"))
 
 @app.route("/signup")

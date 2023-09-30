@@ -19,5 +19,6 @@ The stack currently consists of
 - Alter collision physics so that the reflection of ball depends on the position of ball relative to centre of player rect
 - Make game divs flexible for various displays
 - Refactor code at some point 
+- get db migrations working or move to django
 
 ### TODO: p1id and p2id are hardcoded into the games played section, fix that
